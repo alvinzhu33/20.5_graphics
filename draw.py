@@ -46,7 +46,8 @@ def scanline(verts, screen, color):
             R += (top[0] - mid[0])/(top[1] - mid[1]);
         else:
             R += (mid[0] - bot[0])/(mid[1] - bot[1])
-        draw_line(L, y, R, y, screen, color);
+        draw_line(int(L), int(y), int(R), int(y), screen, color);
+        y += 1;
 
 def draw_polygons( matrix, screen, color ):
     if len(matrix) < 2:
