@@ -8,6 +8,46 @@ def add_polygon( polygons, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
     add_point(polygons, x1, y1, z1);
     add_point(polygons, x2, y2, z2);
 
+def scanline(verts, screen, color):
+    '''bot = min(verts[1], verts[3], verts[5]);
+    top = max(verts[1], verts[3], verts[5]);
+    mid = verts[1];
+    while mid == bot or mid == top:
+        mid
+
+    left = min(verts[0], vers[2], verts[4]);
+    right = max(verts[0], vers[2], verts[4]);'''
+    bot = [verts[0], verts[1]];
+    mid = [verts[2], verts[3]];
+    top = [verts[4], verts[5]];
+
+    if mid[1] < bot[1]:
+        temp = bot;
+        bot = mid;
+        mid = temp;
+    if top[1] < bot[1]:
+        temp = bot;
+        bot = top;
+        top = temp;
+    if top[1] < mid[1]:
+        temp = mid;
+        mid = top;
+        top = temp;
+    #print("Bot: " + str(bot));
+    #print("Mid: " + str(mid));
+    #print("Top: " + str(top));
+
+    y = bot[1];
+    L = bot[0];
+    R = bot[0];
+    while y <= top[1]:
+        L += (top[0] - bot[0])/(top[1] - bot[1]);
+        if y >= mid[1]:
+            R += (top[0] - mid[0])/(top[1] - mid[1]);
+        else:
+            R += (mid[0] - bot[0])/(mid[1] - bot[1])
+        draw_line(L, y, R, y, screen, color);
+
 def draw_polygons( matrix, screen, color ):
     if len(matrix) < 2:
         print 'Need at least 3 points to draw'
@@ -19,6 +59,10 @@ def draw_polygons( matrix, screen, color ):
         normal = calculate_normal(matrix, point)[:]
         #print normal
         if normal[2] > 0:
+            verts = [matrix[point][0], matrix[point][1],
+                     matrix[point+1][0], matrix[point+1][1],
+                     matrix[point+2][0], matrix[point+2][1]];
+            scanline(verts, screen, color);
             draw_line( int(matrix[point][0]),
                        int(matrix[point][1]),
                        int(matrix[point+1][0]),
