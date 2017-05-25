@@ -40,18 +40,31 @@ def scanline(verts, screen, color):
     y = bot[1];
     L = bot[0];
     R = bot[0];
+    dxL = 0
+    if abs(top[1] - bot[1]) != 0: #> .0000000001:
+        dxL = (top[0] - bot[0])/(top[1] - bot[1]);
+    dxR0 = 0
+    if abs(mid[1] - bot[1]) != 0: #> .0000000001:
+        dxR0 = (mid[0] - bot[0])/(mid[1] - bot[1])
+    dxR1 = 0
+    if abs(top[1] - mid[1]) != 0: #> .0000000001 :
+        dxR1 = (top[0] - mid[0])/(top[1] - mid[1])
+    
     while y <= top[1]:
         #print "top " + str(top[1]);
         #print "mid " + str(mid[1]);
         #print "(" + str(L) + ", " + str(y) + ") to (" + str(R) + ", " + str(y) + ")"
-        if top[1] - bot[1] > .0000000001:
-            L += (top[0] - bot[0])/(top[1] - bot[1]);
+        #if top[1] - bot[1] > .0000000001:
+        #    L += (top[0] - bot[0])/(top[1] - bot[1]);
+        L += dxL;
         if y >= mid[1]:
-            if top[1] - mid[1] > .0000000001:
-                R += (top[0] - mid[0])/(top[1] - mid[1]);
+            #if top[1] - mid[1] > .0000000001:
+            #    R += (top[0] - mid[0])/(top[1] - mid[1]);
+            R += dxR1;
         else:
-            if mid[1] - bot[1] > .0000000001 :
-                R += (mid[0] - bot[0])/(mid[1] - bot[1])
+            #if mid[1] - bot[1] > .0000000001 :
+            #    R += (mid[0] - bot[0])/(mid[1] - bot[1])
+            R += dxR0;
         #print "(" + str(L) + ", " + str(y) + ") to (" + str(R) + ", " + str(y) + ")\n"
         draw_line(int(L), int(y), int(R), int(y), screen, color);
         y += 1;
