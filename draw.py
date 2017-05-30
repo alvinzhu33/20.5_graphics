@@ -41,13 +41,13 @@ def scanline(verts, screen, color):
     L = bot[0];
     R = bot[0];
     dxL = 0
-    if abs(top[1] - bot[1]) != 0: #> .0000000001:
+    if abs(top[1] - bot[1]) != 0:
         dxL = (top[0] - bot[0])/(top[1] - bot[1]);
     dxR0 = 0
-    if abs(mid[1] - bot[1]) != 0: #> .0000000001:
+    if abs(mid[1] - bot[1]) != 0:
         dxR0 = (mid[0] - bot[0])/(mid[1] - bot[1])
     dxR1 = 0
-    if abs(top[1] - mid[1]) != 0: #> .0000000001 :
+    if abs(top[1] - mid[1]) != 0:
         dxR1 = (top[0] - mid[0])/(top[1] - mid[1])
     
     while y <= top[1]:
@@ -86,8 +86,11 @@ def draw_polygons( matrix, screen, color ):
             verts = [matrix[point][0], matrix[point][1],
                      matrix[point+1][0], matrix[point+1][1],
                      matrix[point+2][0], matrix[point+2][1]];
+            red = (point * 3) % 255;
+            green = (point * 11) % 255;
+            blue = (point * 17) % 255;
+            color = [red, green, blue]
             scanline(verts, screen, color);
-            color = [100, 100, 100]
             draw_line( int(matrix[point][0]),
                        int(matrix[point][1]),
                        int(matrix[point+1][0]),
