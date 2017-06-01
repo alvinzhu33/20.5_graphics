@@ -9,14 +9,6 @@ def add_polygon( polygons, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
     add_point(polygons, x2, y2, z2);
 
 def scanline(verts, screen, color):
-    '''bot = min(verts[1], verts[3], verts[5]);
-    top = max(verts[1], verts[3], verts[5]);
-    mid = verts[1];
-    while mid == bot or mid == top:
-        mid
-
-    left = min(verts[0], vers[2], verts[4]);
-    right = max(verts[0], vers[2], verts[4]);'''
     change = 1;
     bot = [verts[0], verts[1]];
     mid = [verts[2], verts[3]];
@@ -42,43 +34,41 @@ def scanline(verts, screen, color):
     L = bot[0];
     R = bot[0];
     dxL = 0;
-    if top[1] - bot[1] > 1:
+    if top[1] != bot[1]:
+    #if top[1] != bot[1]:
         dxL = (top[0] - bot[0])/(top[1] - bot[1]);
     dxR0 = 0;
-    if mid[1] - bot[1] > 1:
+    if mid[1] != bot[1]:
+    #if mid[1] != bot[1]:
         dxR0 = (mid[0] - bot[0])/(mid[1] - bot[1]);
     dxR1 = 0;
-    if top[1] - mid[1] > 1:
+    if top[1] != mid[1]:
+    #if top[1] != mid[1]:
         dxR1 = (top[0] - mid[0])/(top[1] - mid[1]);
 
     #print("R: " + str(R) + " L: " + str(L) + " y: " + str(y))
     #print("dxR0: " + str(dxR0) + " dxR1: " + str(dxR1) + " dxL: " + str(dxL))
-    while y <= top[1]:
-        #print "top " + str(top[1]);
-        #print "mid " + str(mid[1]);
-        #print "(" + str(L) + ", " + str(y) + ") to (" + str(R) + ", " + str(y) + ")"
-        #if top[1] - bot[1] > .0000000001:
-        #    L += (top[0] - bot[0])/(top[1] - bot[1]);
-        L += dxL;
-        if y > mid[1]:
-            #if top[1] - mid[1] > .0000000001:
-            #    R += (top[0] - mid[0])/(top[1] - mid[1]);
+    draw_line(int(L), int(y), int(R), int(y), screen, color);
+    while y < top[1]:
+        if (y < mid[1] and mid[1] - y < 1):
+            y = mid[1]
+            R = mid[0]
+            L += dxL
+            draw_line(int(L),int(y),int(R),int(y),screen,color)
+        if y >= mid[1]:
             if change:
                 R = mid[0];
                 change = 0;
             else:
                 R += dxR1;
         else:
-            #if mid[1] - bot[1] > .0000000001 :
-            #    R += (mid[0] - bot[0])/(mid[1] - bot[1])
             R += dxR0;
         #print "(" + str(L) + ", " + str(y) + ") to (" + str(R) + ", " + str(y) + ")\n"
+        L += dxL;
+        y += 1.0;
         draw_line(int(L), int(y), int(R), int(y), screen, color);
-        y += 1;
     #print("R: " + str(R) + " L: " + str(L) + " y: " + str(y) + '\n')
     #display(screen);
-    #print "OK"
-    #return
 
 def draw_polygons( matrix, screen, color ):
     if len(matrix) < 2:
