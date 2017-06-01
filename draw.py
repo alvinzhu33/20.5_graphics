@@ -17,6 +17,7 @@ def scanline(verts, screen, color):
 
     left = min(verts[0], vers[2], verts[4]);
     right = max(verts[0], vers[2], verts[4]);'''
+    change = 1;
     bot = [verts[0], verts[1]];
     mid = [verts[2], verts[3]];
     top = [verts[4], verts[5]];
@@ -52,19 +53,21 @@ def scanline(verts, screen, color):
 
     #print("R: " + str(R) + " L: " + str(L) + " y: " + str(y))
     #print("dxR0: " + str(dxR0) + " dxR1: " + str(dxR1) + " dxL: " + str(dxL))
-    while int(y) <= int(top[1]):
+    while y <= top[1]:
         #print "top " + str(top[1]);
         #print "mid " + str(mid[1]);
         #print "(" + str(L) + ", " + str(y) + ") to (" + str(R) + ", " + str(y) + ")"
         #if top[1] - bot[1] > .0000000001:
         #    L += (top[0] - bot[0])/(top[1] - bot[1]);
         L += dxL;
-        if int(y) == int(mid[1]):
-            R = mid[0];
-        if int(y) > int(mid[1]):
+        if y > mid[1]:
             #if top[1] - mid[1] > .0000000001:
             #    R += (top[0] - mid[0])/(top[1] - mid[1]);
-            R += dxR1;
+            if change:
+                R = mid[0];
+                change = 0;
+            else:
+                R += dxR1;
         else:
             #if mid[1] - bot[1] > .0000000001 :
             #    R += (mid[0] - bot[0])/(mid[1] - bot[1])
