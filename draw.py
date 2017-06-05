@@ -49,7 +49,7 @@ def scanline(verts, screen, color):
     #print("R: " + str(R) + " L: " + str(L) + " y: " + str(y))
     #print("dxR0: " + str(dxR0) + " dxR1: " + str(dxR1) + " dxL: " + str(dxL))
     draw_line(int(L), int(y), int(R), int(y), screen, color);
-    while y < top[1]:
+    '''while y < top[1]:
         if (y < mid[1] and mid[1] - y < 1):
             y = mid[1]
             R = mid[0]
@@ -66,9 +66,20 @@ def scanline(verts, screen, color):
         #print "(" + str(L) + ", " + str(y) + ") to (" + str(R) + ", " + str(y) + ")\n"
         L += dxL;
         y += 1.0;
-        draw_line(int(L), int(y), int(R), int(y), screen, color);
+        draw_line(int(L), int(y), int(R), int(y), screen, color);'''
     #print("R: " + str(R) + " L: " + str(L) + " y: " + str(y) + '\n')
     #display(screen);
+    while y <= int(mid[1]):
+        draw_line(int(L), int(y), int(R), int(y), screen, color);
+        R += dxR0;
+        L += dxL;
+        y += 1.0;
+    R = mid[0];
+    while y <= int(top[1]):
+        draw_line(int(L), int(y), int(R), int(y), screen, color);
+        R += dxR1;
+        L += dxL;
+        y += 1.0;
 
 def draw_polygons( matrix, screen, color ):
     if len(matrix) < 2:
@@ -89,7 +100,7 @@ def draw_polygons( matrix, screen, color ):
             blue = (point * 17) % 255;
             color = [red, green, blue]
             scanline(verts, screen, color);
-            color = [255, 255, 255];
+            '''color = [255, 255, 255];
             draw_line( int(matrix[point][0]),
                        int(matrix[point][1]),
                        int(matrix[point+1][0]),
@@ -104,7 +115,7 @@ def draw_polygons( matrix, screen, color ):
                        int(matrix[point][1]),
                        int(matrix[point+2][0]),
                        int(matrix[point+2][1]),
-                       screen, color)
+                       screen, color)'''
             #print "scanline kk"
         point+= 3
 
